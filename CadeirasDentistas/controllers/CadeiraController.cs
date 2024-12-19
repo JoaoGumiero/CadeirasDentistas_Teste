@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace CadeirasDentistas.Controller
 {
 
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class CadeiraController : ControllerBase
     {
         private readonly ICadeiraService _cadeiraService;

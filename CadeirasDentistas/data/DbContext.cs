@@ -1,7 +1,7 @@
 
 
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace CadeirasDentistas.Data
 {
@@ -16,7 +16,7 @@ namespace CadeirasDentistas.Data
 
     public IDbConnection CreateConnection()
     {
-        var connection = new SqlConnection(_connectionString);
+        var connection = new MySqlConnection(_connectionString);
         connection.Open();
         return connection;
     }

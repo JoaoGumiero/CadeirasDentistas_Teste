@@ -65,3 +65,9 @@ C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\ob
 C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\obj\Debug\net9.0\CadeirasDentistas.genruntimeconfig.cache
 C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\obj\Debug\net9.0\ref\CadeirasDentistas.dll
 C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\bin\Debug\net9.0\Dapper.dll
+c:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\obj\Debug\net9.0\CadeirasDentistas.sourcelink.json
+C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\João Gumiero\Documents\Code\.Net\CadeirasDentista\CadeirasDentistas\obj\Debug\net9.0\CadeirasDentistas.MvcApplicationPartsAssemblyInfo.cs

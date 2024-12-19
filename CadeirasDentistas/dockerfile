@@ -1,0 +1,23 @@
+# Usar a imagem base do .NET Runtime para rodar a aplicação
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+# Usar a imagem do .NET SDK para buildar a aplicação
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+COPY ["CadeirasDentistas.csproj", "./"]
+RUN dotnet restore "CadeirasDentistas.csproj"
+COPY . .
+WORKDIR "/src/"
+RUN dotnet build "./CadeirasDentistas.csproj" -c Release -o /app/build # Compila o código
+
+# Publicar a aplicação
+FROM build AS publish
+RUN dotnet publish "CadeirasDentistas.csproj" -c Release -o /app/publish
+
+# Configuração para rodar a aplicação
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "CadeirasDentistas.dll"]

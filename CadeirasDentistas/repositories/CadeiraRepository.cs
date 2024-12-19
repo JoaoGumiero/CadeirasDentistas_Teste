@@ -25,7 +25,7 @@ namespace CadeirasDentistas.Repository
         {
             using var connection = _context.CreateConnection();
             using var transaction = connection.BeginTransaction();
-            const string query= "INSERT INTO CadeirasDentista (Numero, Descricao, TotalAlocacoes) VALUES @Numero, @Descricao, @TotalAlocacoes";
+            const string query= "INSERT INTO Cadeira (Numero, Descricao, TotalAlocacoes) VALUES @Numero, @Descricao, @TotalAlocacoes";
             try
             {
                  await connection.ExecuteAsync(query, new
@@ -50,7 +50,7 @@ namespace CadeirasDentistas.Repository
 
             using var connection = _context.CreateConnection();
             using var transaction = connection.BeginTransaction();
-            const string query = "DELETE FROM CadeirasDentista WHERE Id = @Id";
+            const string query = "DELETE FROM Cadeira WHERE Id = @Id";
             try
             {
                 await connection.ExecuteAsync(query, new
@@ -71,7 +71,7 @@ namespace CadeirasDentistas.Repository
         public async Task<IEnumerable<Cadeira>> GetAllCadeiraAsync()
         {
             using var connection = _context.CreateConnection();
-            const string query = "SELECT Id, Numero, Descricao FROM Cadeiras";
+            const string query = "SELECT * FROM Cadeira";
             try
             {
                 var cadeiras = await connection.QueryAsync<Cadeira>(query);
@@ -87,7 +87,7 @@ namespace CadeirasDentistas.Repository
         public async Task<Cadeira> GetCadeiraByIdAsync(int id)
         {
             using var connection = _context.CreateConnection();
-            const string query = "SELECT * FROM CadeirasDentista WHERE Id = @Id";
+            const string query = "SELECT * FROM Cadeira WHERE Id = @Id";
             try
             {
                 var cadeira = await connection.QueryFirstOrDefaultAsync<Cadeira>(query, new {Id = id});
@@ -103,7 +103,7 @@ namespace CadeirasDentistas.Repository
         public async Task<Cadeira> UpdateCadeiraAsync(Cadeira cadeira)
         {
             using var connection = _context.CreateConnection();
-            const string query = "UPDATE CadeirasDentista SET Numero = @Numero, Descricao = @Descricao, TotalAlocacoes = @TotalAlocacoes) WHERE Id = @Id";
+            const string query = "UPDATE Cadeira SET Numero = @Numero, Descricao = @Descricao, TotalAlocacoes = @TotalAlocacoes) WHERE Id = @Id";
             using var transaction = connection.BeginTransaction();
             try
             {
@@ -126,7 +126,7 @@ namespace CadeirasDentistas.Repository
         public async Task<Cadeira> GetCadeiraByNumberAsync(int number)
         {
             using var connection = _context.CreateConnection();
-            const string query = "SELECT * FROM CadeirasDentista WHERE Numero = @Numero";
+            const string query = "SELECT * FROM Cadeira WHERE Numero = @Numero";
             try
             {
                 return await connection.QueryFirstOrDefaultAsync<Cadeira>(query, new {Numero = number});
@@ -143,8 +143,8 @@ namespace CadeirasDentistas.Repository
             using var connection = _context.CreateConnection();
             const string query = @"
                 SELECT DISTINCT c.Id, c.Numero, c.Descricao
-                FROM Cadeiras c
-                LEFT JOIN Alocacoes a ON c.Id = a.CadeiraId
+                FROM Cadeira c
+                LEFT JOIN Alocacao a ON c.Id = a.CadeiraId
                 WHERE a.Id IS NULL
                 OR NOT (a.DataHoraInicio < @DataHoraFim AND a.DataHoraFim > @DataHoraInicio)";
             return await connection.QueryAsync<Cadeira>(query, new
