@@ -1,11 +1,12 @@
 
 using CadeirasDentistas.models;
+using CadeirasDentistas.models.context;
 
 namespace CadeirasDentistas.Helper
 {
     public static class AlocacaoValidacao
     {
-        public static void Validate(Alocacao alocacao, ILogger logger, object context) 
+        public static void Validate(Alocacao alocacao, ILogger logger, AlocacaoContext context) 
         {
             if (alocacao == null)
             {

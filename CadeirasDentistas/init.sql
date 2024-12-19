@@ -1,0 +1,18 @@
+CREATE DATABASE IF NOT EXISTS CadeirasDentistas;
+
+USE CadeirasDentistas;
+
+CREATE TABLE Cadeira (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Numero INT NOT NULL,
+    Descricao VARCHAR(255) NOT NULL,
+    TotalAlocacoes INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE Alocacao (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    IdCadeira INT NOT NULL,
+    DataHoraInicio DATETIME NOT NULL,
+    DataHoraFim DATETIME NOT NULL,
+    FOREIGN KEY (IdCadeira) REFERENCES Cadeira(Id)
+);
