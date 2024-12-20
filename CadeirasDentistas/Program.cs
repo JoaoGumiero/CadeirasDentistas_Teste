@@ -23,8 +23,11 @@ builder.Services.AddScoped<ICadeiraService, CadeiraService>();
 builder.Services.AddScoped<IAlocacaoRepository, AlocacaoRepository>();
 builder.Services.AddScoped<IAlocacaoService, AlocacaoService>();
 
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") 
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 // Configurar conexão com o banco de dados (Connection String)
-builder.Services.AddSingleton(new ApplicationDbContext(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSingleton(new ApplicationDbContext(connectionString));
 
 
 var app = builder.Build();

@@ -21,7 +21,7 @@ namespace CadeirasDentistas.Repository
         {
             using var connection = _context.CreateConnection();
             using var transaction = connection.BeginTransaction();
-            const string query= "INSERT INTO Alocacao (IdCadeira, Cadeira, DataHoraInicio, DataHoraFim) VALUES @IdCadeira, @Cadeira, @DataHoraInicio, @DataHorafim";
+            const string query= "INSERT INTO Alocacao (IdCadeira, Cadeira, DataHoraInicio, DataHoraFim) VALUES (@IdCadeira, @Cadeira, @DataHoraInicio, @DataHorafim)";
             try
             {
                 await connection.ExecuteAsync(query, new

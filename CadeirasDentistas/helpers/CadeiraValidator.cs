@@ -17,7 +17,7 @@ namespace CadeirasDentistas.Helper
                 throw new ArgumentNullException(nameof(cadeira), "O objeto Cadeira não pode ser nulo.");
             }
 
-            if (cadeira.Numero > 0)
+            if (cadeira.Numero <= 0)
             {
                 logger?.LogError("Erro de validação: Número da cadeira necessita de positiva. Contexto: {@Context}", context);
                 throw new ArgumentNullException("O número da cadeira é obrigatório e deve ser positiva.");
