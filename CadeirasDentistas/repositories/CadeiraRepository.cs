@@ -23,23 +23,30 @@ namespace CadeirasDentistas.Repository
 
         public async Task<Cadeira> AddCadeiraAsync(Cadeira cadeira)
         {
+            _logger.LogInformation("Tentando adicionar cadeira: {@Cadeira}", cadeira);
             using var connection = _context.CreateConnection();
+            _logger.LogInformation("Começando transação");
             using var transaction = connection.BeginTransaction();
-            const string query= "INSERT INTO Cadeira (Numero, Descricao, TotalAlocacoes) VALUES @Numero, @Descricao, @TotalAlocacoes";
+            const string query= "INSERT INTO Cadeira (Numero, Descricao, TotalAlocacoes) VALUES (@Numero, @Descricao, @TotalAlocacoes)";
             try
             {
-                 await connection.ExecuteAsync(query, new
+                _logger.LogInformation("Entrou no try");
+                await connection.ExecuteAsync(query, new
                 {
                     Numero = cadeira.Numero,
                     Descricao = cadeira.Descricao,
                     TotalAlocacoes = cadeira.TotalAlocacoes,
                 });
+            _logger.LogInformation("Saiu do try");
             transaction.Commit();
+            _logger.LogInformation("Comitou");
             return cadeira;
             }
             catch
             {
+                _logger.LogInformation("Achou erro e vai dar rollback");
                 transaction.Rollback();
+                _logger.LogInformation("Deu rollback, agora vai dar o throw");
                 // Implementar erro
                 throw;
             }
@@ -103,7 +110,7 @@ namespace CadeirasDentistas.Repository
         public async Task<Cadeira> UpdateCadeiraAsync(Cadeira cadeira)
         {
             using var connection = _context.CreateConnection();
-            const string query = "UPDATE Cadeira SET Numero = @Numero, Descricao = @Descricao, TotalAlocacoes = @TotalAlocacoes) WHERE Id = @Id";
+            const string query = "UPDATE Cadeira SET Numero = (@Numero, Descricao = @Descricao, TotalAlocacoes = @TotalAlocacoes) WHERE Id = @Id";
             using var transaction = connection.BeginTransaction();
             try
             {
