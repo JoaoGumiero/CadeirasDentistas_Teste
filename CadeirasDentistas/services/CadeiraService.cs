@@ -28,7 +28,7 @@ namespace CadeirasDentistas.services
 
         public async Task<IEnumerable<Cadeira>> GetAllCadeirasAsync()
         {
-            return await _repository.GetAllCadeiraAsync();
+            return await _repository.GetAllCadeirasAsync();
         }
 
         public async Task DeleteCadeiraAsync(int id)

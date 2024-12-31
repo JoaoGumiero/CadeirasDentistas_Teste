@@ -53,7 +53,7 @@ namespace CadeirasDentistas.Controller
         public async Task<IActionResult> Delete(int id)
         {
             await _cadeiraService.DeleteCadeiraAsync(id);
-            return NoContent();
+            return Ok("Cadeira deletada com sucesso.");
         }
     }
     

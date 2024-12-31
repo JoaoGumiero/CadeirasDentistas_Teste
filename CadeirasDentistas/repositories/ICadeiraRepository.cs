@@ -7,7 +7,7 @@ namespace CadeirasDentistas.Repository
 {
     public interface ICadeiraRepository
     {
-        Task<IEnumerable<Cadeira>> GetAllCadeiraAsync();
+        Task<IEnumerable<Cadeira>> GetAllCadeirasAsync();
         Task<Cadeira> GetCadeiraByIdAsync(int id);
         Task<Cadeira> GetCadeiraByNumberAsync(int number);
         Task<Cadeira> AddCadeiraAsync(Cadeira cadeira);

@@ -7,6 +7,7 @@ namespace CadeirasDentistas.Repository
     {
     Task<IEnumerable<Alocacao>> GetAllAlocacoesAsync();
     Task<Alocacao> AddAlocacaoAsync(Alocacao alocacao);
+    Task<IEnumerable<Alocacao>> GetAlocacoesPorPeriodoAsync(DateTime inicio, DateTime fim);
     }
     
 }

@@ -58,38 +58,21 @@ namespace CadeirasDentistas.Repository
             using var connection = _context.CreateConnection();
             using var transaction = connection.BeginTransaction();
             const string query = "DELETE FROM Cadeira WHERE Id = @Id";
+            const string deleteAlocacoesQuery = "DELETE FROM Alocacao WHERE IdCadeira = @Id";
             try
             {
-                await connection.ExecuteAsync(query, new
-                {
-                    Id = id
-                });
+                await connection.ExecuteAsync(deleteAlocacoesQuery, new { Id = id }, transaction);
+                await connection.ExecuteAsync(query, new { Id = id });
                 transaction.Commit();
                 return true;
             }
             catch
             {
                 transaction.Rollback();
-                // Implementar erro
                 throw;
             }
         }
 
-        public async Task<IEnumerable<Cadeira>> GetAllCadeiraAsync()
-        {
-            using var connection = _context.CreateConnection();
-            const string query = "SELECT * FROM Cadeira";
-            try
-            {
-                var cadeiras = await connection.QueryAsync<Cadeira>(query);
-                return cadeiras;
-            }
-            catch
-            {
-                // Implementar erro
-                throw;
-            }
-        }
 
         public async Task<Cadeira> GetCadeiraByIdAsync(int id)
         {
@@ -110,11 +93,12 @@ namespace CadeirasDentistas.Repository
         public async Task<Cadeira> UpdateCadeiraAsync(Cadeira cadeira)
         {
             using var connection = _context.CreateConnection();
-            const string query = "UPDATE Cadeira SET Numero = (@Numero, Descricao = @Descricao, TotalAlocacoes = @TotalAlocacoes) WHERE Id = @Id";
+            const string query = "UPDATE Cadeira SET Numero = @Numero, Descricao = @Descricao, TotalAlocacoes = @TotalAlocacoes WHERE Id = @Id";
             using var transaction = connection.BeginTransaction();
             try
             {
                 await connection.ExecuteAsync(query, new{
+                    Id = cadeira.Id,
                     Numero = cadeira.Numero,
                     Descricao = cadeira.Descricao,
                     TotalAlocacoes = cadeira.TotalAlocacoes
@@ -149,16 +133,30 @@ namespace CadeirasDentistas.Repository
         {
             using var connection = _context.CreateConnection();
             const string query = @"
-                SELECT DISTINCT c.Id, c.Numero, c.Descricao
-                FROM Cadeira c
-                LEFT JOIN Alocacao a ON c.Id = a.CadeiraId
-                WHERE a.Id IS NULL
-                OR NOT (a.DataHoraInicio < @DataHoraFim AND a.DataHoraFim > @DataHoraInicio)";
+                SELECT * FROM Cadeira WHERE NOT EXISTS (SELECT 1 FROM Alocacao a WHERE a.IdCadeira = c.Id AND ((a.DataHoraInicio < @DataHoraFim AND a.DataHoraFim > @DataHoraInicio)))";
             return await connection.QueryAsync<Cadeira>(query, new
             {
                 DataHoraInicio = dataHoraInicio,
                 DataHoraFim = dataHoraFim
             });
+        }
+
+        public async Task<IEnumerable<Cadeira>> GetAllCadeirasAsync()
+        {
+            _logger.LogInformation("Iniciando busca de todas as cadeiras.");
+            using var connection = _context.CreateConnection();
+            const string query = "SELECT * FROM Cadeira";
+            try
+            {
+                var cadeiras = await connection.QueryAsync<Cadeira>(query);
+                 _logger.LogInformation("{TotalCadeiras} cadeiras encontradas.", cadeiras.Count());
+                return cadeiras;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todas as cadeiras.");
+                throw;
+            }
         }
     }
 
