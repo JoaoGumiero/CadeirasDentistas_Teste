@@ -21,13 +21,12 @@ namespace CadeirasDentistas.Repository
         {
             using var connection = _context.CreateConnection();
             using var transaction = connection.BeginTransaction();
-            const string query= "INSERT INTO Alocacao (IdCadeira, Cadeira, DataHoraInicio, DataHoraFim) VALUES (@IdCadeira, @Cadeira, @DataHoraInicio, @DataHorafim)";
+            const string query= "INSERT INTO Alocacao (IdCadeira, DataHoraInicio, DataHoraFim) VALUES (@IdCadeira, @DataHoraInicio, @DataHorafim)";
             try
             {
                 await connection.ExecuteAsync(query, new
                 {
-                    IdCadeira = alocacao.Cadeira.Id,
-                    Cadeira = alocacao.Cadeira,
+                    IdCadeira = alocacao.Cadeira.Id, // Extraindo apenas o ID da cadeira para a persistência
                     DataHoraInicio = alocacao.DataHoraInicio,
                     DataHoraFim = alocacao.DataHoraFim,
                 });
@@ -39,7 +38,6 @@ namespace CadeirasDentistas.Repository
             {
                 // Rollback caso de problema
                 transaction.Rollback();
-                
                 throw;
             }
         }
@@ -48,10 +46,10 @@ namespace CadeirasDentistas.Repository
             using var connection = _context.CreateConnection();
             const string query = @"SELECT 
                     ac.Id AS IdAlocacao, 
-                    ac.IdCadeira, 
+                    ac.IdCadeira AS CadeiraId,  -- O splitOn precisa encontrar essa coluna
                     ac.DataHoraInicio, 
                     ac.DataHoraFim,
-                    c.Id AS IdCadeira, 
+                    c.Id AS IdCadeira,  -- Coluna usada para mapear o objeto Cadeira
                     c.Numero, 
                     c.Descricao, 
                     c.TotalAlocacoes
@@ -59,7 +57,11 @@ namespace CadeirasDentistas.Repository
                 INNER JOIN Cadeira c ON ac.IdCadeira = c.Id";
             try
             {
-                var alocacoes = await connection.QueryAsync<Alocacao>(query);
+                var alocacoes = await connection.QueryAsync<Alocacao, Cadeira, Alocacao>(query,(alocacao, cadeira) => {
+
+                    alocacao.Cadeira = cadeira; // Associa o objeto Cadeira a Alocacao
+                    return alocacao;
+                }, splitOn: "CadeiraId"); // Informa ao Dapper onde ocorre a separação dos dados (Ele não lida mt bem com objetos complexos)
                 return alocacoes;
             }
             catch
@@ -67,6 +69,15 @@ namespace CadeirasDentistas.Repository
                 // Implementar erro
                 throw;
             }
+        }
+        
+        public async Task<IEnumerable<Alocacao>> GetAlocacoesPorPeriodoAsync(DateTime inicio, DateTime fim)
+        {
+            using var connection = _context.CreateConnection();
+            const string query = @"
+                SELECT * FROM Alocacao 
+                WHERE (DataHoraInicio < @Fim AND DataHoraFim > @Inicio)";
+            return await connection.QueryAsync<Alocacao>(query, new { Inicio = inicio, Fim = fim });
         }
 
     }

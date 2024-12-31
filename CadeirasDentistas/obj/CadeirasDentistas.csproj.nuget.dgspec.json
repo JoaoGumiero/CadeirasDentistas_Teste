@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\João Gumiero\\Documents\\Code\\.Net\\CadeirasDentista\\CadeirasDentistas\\CadeirasDentistas.csproj": {}
+    "C:\\Users\\João Gumiero\\Documents\\CodeTest\\CadeirasDentistas_Teste\\CadeirasDentistas\\CadeirasDentistas.csproj": {}
   },
   "projects": {
-    "C:\\Users\\João Gumiero\\Documents\\Code\\.Net\\CadeirasDentista\\CadeirasDentistas\\CadeirasDentistas.csproj": {
+    "C:\\Users\\João Gumiero\\Documents\\CodeTest\\CadeirasDentistas_Teste\\CadeirasDentistas\\CadeirasDentistas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\João Gumiero\\Documents\\Code\\.Net\\CadeirasDentista\\CadeirasDentistas\\CadeirasDentistas.csproj",
+        "projectUniqueName": "C:\\Users\\João Gumiero\\Documents\\CodeTest\\CadeirasDentistas_Teste\\CadeirasDentistas\\CadeirasDentistas.csproj",
         "projectName": "CadeirasDentistas",
-        "projectPath": "C:\\Users\\João Gumiero\\Documents\\Code\\.Net\\CadeirasDentista\\CadeirasDentistas\\CadeirasDentistas.csproj",
+        "projectPath": "C:\\Users\\João Gumiero\\Documents\\CodeTest\\CadeirasDentistas_Teste\\CadeirasDentistas\\CadeirasDentistas.csproj",
         "packagesPath": "C:\\Users\\João Gumiero\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\João Gumiero\\Documents\\Code\\.Net\\CadeirasDentista\\CadeirasDentistas\\obj\\",
+        "outputPath": "C:\\Users\\João Gumiero\\Documents\\CodeTest\\CadeirasDentistas_Teste\\CadeirasDentistas\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

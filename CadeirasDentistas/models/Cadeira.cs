@@ -16,6 +16,6 @@ namespace CadeirasDentistas.models
 
         public int TotalAlocacoes { get; set; }
 
-        public List<Alocacao> Alocacoes {get; set;} = [];
+        public List<Alocacao> Alocacoes {get; set;} = new List<Alocacao>();
     }
 }
