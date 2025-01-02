@@ -29,9 +29,20 @@ Teste técnico de Cadeira de Dentistas em .Net. Envolve uma aplicação com oper
 ---
 
 ## Instalação
+Pré-requisitos:
+    Certifique-se de ter o Docker e o Docker Compose instalados no seu ambiente:
+    Guia de instalação do Docker
+    
+1. Clone este repositório:
+    git clone
+    cd
+   
+3. Inicie os serviços com Docker Compose:
+    docker-compose up --build
 
-1. Clone este repositório
-2. 
+5. Acesse a aplicação com o Swagger:
+    A API estará disponível em: http://localhost:3000
+   
 
 
 ## Adições Posteriores
