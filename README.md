@@ -42,7 +42,7 @@ Teste técnico de Cadeira de Dentistas em .Net. Envolve uma aplicação com oper
 
 3. Acesse a aplicação:
    A API estará disponível em: http://localhost:8080
-   | Swagger disponível pelo endpoint: http://localhost:8080/index.html
+   | Swagger disponível no endpoint: http://localhost:8080/index.html
    
 
 
