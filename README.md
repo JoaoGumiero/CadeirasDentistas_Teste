@@ -33,14 +33,14 @@ Teste técnico de Cadeira de Dentistas em .Net. Envolve uma aplicação com oper
 
 ## Instalação
     
-1. Clone este repositório:
-    git clone https://github.com/JoaoGumiero/CadeirasDentistas_Teste.git
-    cd .\CadeirasDentistas\
+1. Clone este repositório e entre na pasta pelo cmd:
+- git clone https://github.com/JoaoGumiero/CadeirasDentistas_Teste.git
+- cd .\CadeirasDentistas\
    
-2. Inicie os serviços com Docker Compose:
+4. Inicie os serviços com Docker Compose:
     docker-compose up --build
 
-3. Acesse a aplicação:
+5. Acesse a aplicação:
    A API estará disponível em: http://localhost:8080
    | Swagger disponível no endpoint: http://localhost:8080/index.html
    
