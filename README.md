@@ -30,8 +30,8 @@ Teste técnico de Cadeira de Dentistas em .Net. Envolve uma aplicação com oper
 
 ## Instalação
 Pré-requisitos:
-    Certifique-se de ter o Docker e o Docker Compose instalados no seu ambiente:
-    Guia de instalação do Docker
+- Certifique-se de ter o Docker e o Docker Compose instalados no seu ambiente:
+- Guia de instalação do Docker
     
 1. Clone este repositório:
     git clone
