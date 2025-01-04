@@ -34,8 +34,15 @@ namespace CadeirasDentistas.Controller
 
         // POST: api/cadeira
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] Cadeira cadeira)
+        public async Task<IActionResult> Add([FromBody] CadeiraDTO cadeiraDTO)
         {
+            var cadeira = new Cadeira
+            {
+               Numero = cadeiraDTO.Numero,
+               Descricao = cadeiraDTO.Descricao,
+               TotalAlocacoes = 0,
+               Alocacoes = [], 
+            };
             var createdCadeira = await _cadeiraService.AddCadeiraAsync(cadeira);
             return CreatedAtAction(nameof(GetById), new { id = createdCadeira.Id }, createdCadeira);
         }
