@@ -55,6 +55,6 @@ Teste técnico de Cadeira de Dentistas em .Net. Envolve uma aplicação com oper
     
 - Poderia melhorar a questão de variáveis de ambiente, colocar Prod e Dev (Ajustar os detalhes do midleware para logs da aplicação)
 
-- Poderia incluir classes DTO para controlar o fluxo de dados de um model que entra e que sai na resposta para o cliente.
+- Poderia tornar classes DTO mais complexas para controlar o fluxo de dados de um model que entra e que sai na resposta para o cliente.
 
 - Incluir Design Patterns de Factory e Singleton para acesso ao banco de dados.
