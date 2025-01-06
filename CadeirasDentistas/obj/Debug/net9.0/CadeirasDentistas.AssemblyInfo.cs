@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CadeirasDentistas")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b5ae0900a7d06ace89c41223479b342f3c9af6b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e1816e51ff0eb888f9af4c2834ca88b1e616cbd")]
 [assembly: System.Reflection.AssemblyProductAttribute("CadeirasDentistas")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CadeirasDentistas")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
