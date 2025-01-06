@@ -1,0 +1,3 @@
+# Ignorar diretórios de build do .NET
+**/bin/
+**/obj/
