@@ -82,6 +82,8 @@ namespace CadeirasDentistas.services
                     DataHoraFim = dataHoraFim
                 };
 
+                novaAlocacao.Cadeira.TotalAlocacoes += 1;
+
                 await _repository.AddAlocacaoAsync(novaAlocacao);
                 alocacoesRealizadas.Add(novaAlocacao);
 
