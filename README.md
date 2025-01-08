@@ -38,7 +38,7 @@ Teste técnico de Cadeira de Dentistas em .Net. Envolve uma aplicação com oper
 - cd .\CadeirasDentistas\
    
 4. Inicie os serviços com Docker Compose:
-    docker-compose up --build
+    docker-compose up --build (Lembrando que necessita que o docker desktop esteja aberto)
 
 5. Acesse a aplicação:
    A API estará disponível em: http://localhost:8080
