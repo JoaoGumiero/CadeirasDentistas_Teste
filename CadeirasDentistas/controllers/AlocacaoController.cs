@@ -35,24 +35,12 @@ namespace CadeirasDentistas.Controller
             Summary = "Alocação automática de cadeiras",
             Description = "Realiza a alocação automática de cadeiras para um período específico."
         )]
-        [SwaggerRequestExample(typeof(AlocacaoAutoExample), typeof(AlocacaoAutoExample))]
-        public async Task<IActionResult> AlocarAutomaticamente([FromQuery] DateTime inicio, [FromQuery] DateTime fim)
+        public async Task<IActionResult> AlocarAutomaticamente(
+            [FromQuery, SwaggerParameter(Description = "Data e hora de início do período para alocação automática. Exemplo: 2025-01-09T10:00:00Z")] DateTime inicio, 
+            [FromQuery, SwaggerParameter(Description = "Data e hora de término do período para alocação automática. Exemplo: 2025-01-09T12:00:00Z")] DateTime fim)
         {
             var alocacoes = await _alocacaoService.AlocarAutoAsync(inicio, fim);
             return Ok(alocacoes);
-        }
-
-        // Exemplo para utilizar a API de alocação automática.
-        public class AlocacaoAutoExample : IExamplesProvider<object>
-        {
-            public object GetExamples()
-            {
-                return new
-                {
-                    inicio = "2025-01-09T10:00:00Z",
-                    fim = "2025-01-09T12:00:00Z"
-                };
-            }
         }
     }
     
