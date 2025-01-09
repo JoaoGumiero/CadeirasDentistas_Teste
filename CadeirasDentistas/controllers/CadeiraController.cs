@@ -1,6 +1,7 @@
 using CadeirasDentistas.models;
 using CadeirasDentistas.services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace CadeirasDentistas.Controller
@@ -19,6 +20,9 @@ namespace CadeirasDentistas.Controller
 
         // GET: api/cadeira
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Retorna todas as Cadeiras."
+        )]
         public async Task<IActionResult> GetAll()
         {
             var cadeiras = await _cadeiraService.GetAllCadeirasAsync();
@@ -27,6 +31,9 @@ namespace CadeirasDentistas.Controller
 
         // GET: api/cadeira/{id}
         [HttpGet("{id}")]
+        [SwaggerOperation(
+            Summary = "Retorna uma cadeira baseado no Id dado"
+        )]
         public async Task<IActionResult> GetById(int id)
         {
             var cadeira = await _cadeiraService.GetCadeiraByIdAsync(id);
@@ -35,6 +42,9 @@ namespace CadeirasDentistas.Controller
 
         // POST: api/cadeira
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Adiciona uma Cadeira"
+        )]
         public async Task<IActionResult> Add([FromBody] CadeiraDTO cadeiraDTO)
         {
             var cadeira = new Cadeira
@@ -51,6 +61,9 @@ namespace CadeirasDentistas.Controller
         // PUT: api/cadeira/{id}
         [HttpPut("{id}")]
         [SwaggerRequestExample(typeof(CadeiraDTO), typeof(CadeiraExample))]
+        [SwaggerOperation(
+            Summary = "Altera uma cadeira com o Id enviado."
+        )]
         public async Task<IActionResult> Update(int id, [FromBody] Cadeira cadeira)
         {
             var updatedCadeira = await _cadeiraService.UpdateCadeiraAsync(cadeira);
@@ -89,6 +102,9 @@ namespace CadeirasDentistas.Controller
 
         // DELETE: api/cadeira/{id}
         [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Deleta uma Cadeira sem alocações vigentes."
+        )]
         public async Task<IActionResult> Delete(int id)
         {
             await _cadeiraService.DeleteCadeiraAsync(id);

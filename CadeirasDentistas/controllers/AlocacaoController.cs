@@ -1,6 +1,8 @@
 using CadeirasDentistas.models;
 using CadeirasDentistas.services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace CadeirasDentistas.Controller
 {
@@ -18,6 +20,9 @@ namespace CadeirasDentistas.Controller
 
         // GET: api/alocacao
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Retorna todas as Alocações."
+        )]
         public async Task<IActionResult> GetAll()
         {
             var alocacoes = await _alocacaoService.GetAllAlocacoesAsync();
@@ -26,10 +31,28 @@ namespace CadeirasDentistas.Controller
 
         // POST: api/alocacao/automatico
         [HttpPost("automatico")]
+        [SwaggerOperation(
+            Summary = "Alocação automática de cadeiras",
+            Description = "Realiza a alocação automática de cadeiras para um período específico."
+        )]
+        [SwaggerRequestExample(typeof(AlocacaoAutoExample), typeof(AlocacaoAutoExample))]
         public async Task<IActionResult> AlocarAutomaticamente([FromQuery] DateTime inicio, [FromQuery] DateTime fim)
         {
             var alocacoes = await _alocacaoService.AlocarAutoAsync(inicio, fim);
             return Ok(alocacoes);
+        }
+
+        // Exemplo para utilizar a API de alocação automática.
+        public class AlocacaoAutoExample : IExamplesProvider<object>
+        {
+            public object GetExamples()
+            {
+                return new
+                {
+                    inicio = "2025-01-09T10:00:00Z",
+                    fim = "2025-01-09T12:00:00Z"
+                };
+            }
         }
     }
     
