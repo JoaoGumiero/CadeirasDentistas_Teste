@@ -8,14 +8,20 @@ using Microsoft.AspNetCore.SignalR;
 using CadeirasDentistas.Repository;
 using CadeirasDentistas.services;
 using CadeirasDentistas.Data;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Adicionar serviços ao container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 //Swagger
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.EnableAnnotations(); // Ativa suporte as anotações
+    options.ExampleFilters(); // Registra suporte aos exemplos
+});
 
 // Configuração de dependências
 builder.Services.AddScoped<ICadeiraRepository, CadeiraRepository>();
@@ -29,6 +35,8 @@ var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__De
 // Configurar conexão com o banco de dados (Connection String)
 builder.Services.AddSingleton(new ApplicationDbContext(connectionString));
 
+// Registrar os exemplos das APIs no Swagger
+builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
 var app = builder.Build();
 
