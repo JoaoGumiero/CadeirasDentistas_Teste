@@ -1,6 +1,7 @@
 using CadeirasDentistas.models;
 using CadeirasDentistas.services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace CadeirasDentistas.Controller
 {
@@ -49,10 +50,41 @@ namespace CadeirasDentistas.Controller
 
         // PUT: api/cadeira/{id}
         [HttpPut("{id}")]
+        [SwaggerRequestExample(typeof(CadeiraDTO), typeof(CadeiraExample))]
         public async Task<IActionResult> Update(int id, [FromBody] Cadeira cadeira)
         {
             var updatedCadeira = await _cadeiraService.UpdateCadeiraAsync(cadeira);
             return Ok(updatedCadeira);
+        }
+
+
+        // Ajustar o corpo do Swagger para a requisição Put
+        public class CadeiraExample : IExamplesProvider<Cadeira>
+        {
+            public Cadeira GetExamples()
+            {
+                return new Cadeira
+                {
+                    Id = 1,
+                    Numero = 10,
+                    Descricao = "Cadeira confortável",
+                    TotalAlocacoes = 1,
+                    Alocacoes = new List<Alocacao>
+                    {
+                        new Alocacao
+                        {
+                            Id = 1,
+                            Cadeira = new Cadeira
+                            {
+                                Numero = 10,
+                                Descricao = "Cadeira confortável"
+                            },
+                            DataHoraInicio = DateTime.UtcNow,
+                            DataHoraFim = DateTime.UtcNow.AddHours(1)
+                        }
+                    }
+                };
+            }
         }
 
         // DELETE: api/cadeira/{id}

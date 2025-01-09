@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using CadeirasDentistas.Data;
 using Dapper;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Text.Json;
 
 namespace CadeirasDentistas.Repository
 {
@@ -13,7 +14,7 @@ namespace CadeirasDentistas.Repository
     {
 
         private readonly ApplicationDbContext _context;
-         private readonly ILogger<CadeiraRepository> _logger;
+        private readonly ILogger<CadeiraRepository> _logger;
 
         public CadeiraRepository(ApplicationDbContext context, ILogger<CadeiraRepository> logger)
         {
@@ -37,18 +38,21 @@ namespace CadeirasDentistas.Repository
                     Descricao = cadeira.Descricao,
                     TotalAlocacoes = cadeira.TotalAlocacoes,
                 });
-            _logger.LogInformation("Saiu do try");
             transaction.Commit();
-            _logger.LogInformation("Comitou");
             return cadeira;
             }
-            catch
+            catch (Exception ex)
             {
-                _logger.LogInformation("Achou erro e vai dar rollback");
                 transaction.Rollback();
-                _logger.LogInformation("Deu rollback, agora vai dar o throw");
-                // Implementar erro
-                throw;
+
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
 
@@ -66,10 +70,18 @@ namespace CadeirasDentistas.Repository
                 transaction.Commit();
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 transaction.Rollback();
-                throw;
+
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
 
@@ -83,10 +95,16 @@ namespace CadeirasDentistas.Repository
                 var cadeira = await connection.QueryFirstOrDefaultAsync<Cadeira>(query, new {Id = id});
                 return cadeira;
             }
-            catch
+            catch (Exception ex)
             {
-                // Implementar erro
-                throw;
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
 
@@ -106,11 +124,18 @@ namespace CadeirasDentistas.Repository
             transaction.Commit();
             return cadeira;
             }
-            catch
+            catch (Exception ex)
             {
                 transaction.Rollback();
-                // Implementar erro
-                throw;
+
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
 
@@ -122,10 +147,16 @@ namespace CadeirasDentistas.Repository
             {
                 return await connection.QueryFirstOrDefaultAsync<Cadeira>(query, new {Numero = number});
             }
-            catch
+            catch (Exception ex)
             {
-                // Implementar erro
-                throw;
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
 
@@ -154,8 +185,15 @@ namespace CadeirasDentistas.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todas as cadeiras.");
-                throw;
+
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
     }

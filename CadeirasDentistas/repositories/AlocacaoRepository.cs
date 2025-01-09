@@ -1,5 +1,6 @@
 
 
+using System.Text.Json;
 using CadeirasDentistas.Data;
 using CadeirasDentistas.models;
 using Dapper;
@@ -34,11 +35,18 @@ namespace CadeirasDentistas.Repository
 
             return alocacao;
             }
-            catch
+            catch (Exception ex)
             {
-                // Rollback caso de problema
                 transaction.Rollback();
-                throw;
+
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
         public async Task<IEnumerable<Alocacao>> GetAllAlocacoesAsync()
@@ -64,10 +72,16 @@ namespace CadeirasDentistas.Repository
                 }, splitOn: "CadeiraId"); // Informa ao Dapper onde ocorre a separação dos dados (Ele não lida mt bem com objetos complexos)
                 return alocacoes;
             }
-            catch
+            catch (Exception ex)
             {
-                // Implementar erro
-                throw;
+                var additionalInfo = new
+                {
+                    TransactionId = Guid.NewGuid(),
+                    Time = DateTime.UtcNow
+                };
+
+                var contextInfo = JsonSerializer.Serialize(additionalInfo);
+                throw new Exception($"Erro ao executar a transação. Contexto: {contextInfo}", ex) ;
             }
         }
         
