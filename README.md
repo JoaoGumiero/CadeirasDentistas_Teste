@@ -18,6 +18,8 @@
 ## Descrição
 Teste técnico de Cadeira de Dentistas em .Net. Envolve uma aplicação com operações CRUD e outras funcionalidade como a auto alocação de cadeiras para dentistas, e tudo em um ambiente modularizado.
 
+Não utilizei ORM a título didático, porém sofri com bastante dificuldades em relação a nova linguagem (.Net). Ademais, algumas alternativas escolhidas entendo que não são melhores práticas e que não devem ser utilizadas.
+
 ---
 
 ## Tecnologias
