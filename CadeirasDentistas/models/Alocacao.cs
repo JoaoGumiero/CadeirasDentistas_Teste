@@ -8,7 +8,7 @@ namespace CadeirasDentistas.models
     {
         public int Id { get; set; }
         
-        // Associação com o objeto Cadeira || Dapper não consegue lidar com objetos complexos, assim eu preciso utilizar ID da cadeira de forma básica
+        // Associação com o objeto Cadeira
         [Required]
         public Cadeira Cadeira { get; set; }
 
@@ -17,6 +17,7 @@ namespace CadeirasDentistas.models
 
         [Required]
         public DateTime DataHoraFim { get; set; }
+
     }
     
 }

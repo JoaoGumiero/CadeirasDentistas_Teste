@@ -174,13 +174,30 @@ namespace CadeirasDentistas.Repository
 
         public async Task<IEnumerable<Cadeira>> GetAllCadeirasAsync()
         {
-            _logger.LogInformation("Iniciando busca de todas as cadeiras.");
             using var connection = _context.CreateConnection();
-            const string query = "SELECT * FROM Cadeira";
+            const string query = "SELECT ca.Id, ca.Numero, ca.Descricao, al.IdCadeira, al.DataHoraInicio, al.DataHoraFim FROM Cadeira ca LEFT JOIN Alocacao al ON ca.Id = al.IdCadeira";
+
+            const string query2 = "SELECT * FROM Cadeira";
+
+            const string query3 = "SELECT * FROM Alocacao";
+            
+            // Id | Numero | Descricao | TotalAlocacoes | Id   | IdCadeira | DataHoraInicio    | DataHoraFim
             try
             {
-                var cadeiras = await connection.QueryAsync<Cadeira>(query);
-                 _logger.LogInformation("{TotalCadeiras} cadeiras encontradas.", cadeiras.Count());
+                var cadeiras = await connection.QueryAsync<Cadeira>(query2);
+                // var alocacoes = await connection.QueryAsync<Alocacao>(query3);
+
+                foreach (var cadeira in cadeiras)
+                {
+                    _logger.LogInformation("Alocação: ", cadeira.Id);
+                    var alocacoes = await connection.QueryAsync<Alocacao>("SELECT * FROM Alocacao WHERE IdCadeira = " + cadeira.Id);
+                    foreach (var alocacao in alocacoes) 
+                    {
+                        cadeira.Alocacoes.Add(alocacao);
+                    }
+                }
+
+                _logger.LogInformation("{TotalCadeiras} cadeiras encontradas.", cadeiras.Count());
                 return cadeiras;
             }
             catch (Exception ex)
