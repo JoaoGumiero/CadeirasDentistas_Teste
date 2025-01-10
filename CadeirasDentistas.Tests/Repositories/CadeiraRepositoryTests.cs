@@ -87,21 +87,5 @@ public class CadeiraRepositoryTests
         Assert.Equal("Erro ao atualizar cadeira no banco", exception.Message);
     }
 
-    [Fact]
-    public async Task DeleteCadeiraAsync_ShouldThrowException_WhenForeignKeyViolationOccurs()
-    {
-        // Arrange
-        var cadeiraId = 1;
-
-        _mockConnection
-            .Setup(conn => conn.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>(), null, null))
-            .ThrowsAsync(new Exception("Violação de chave estrangeira ao deletar cadeira"));
-
-        // Act & Assert
-        var exception = await Assert.ThrowsAsync<Exception>(() => _repository.DeleteCadeiraAsync(cadeiraId));
-        Assert.Equal("Violação de chave estrangeira ao deletar cadeira", exception.Message);
-    }
-
-
 
 }

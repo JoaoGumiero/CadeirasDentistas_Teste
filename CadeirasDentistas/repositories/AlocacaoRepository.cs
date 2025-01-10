@@ -22,18 +22,28 @@ namespace CadeirasDentistas.Repository
         {
             using var connection = _context.CreateConnection();
             using var transaction = connection.BeginTransaction();
-            const string query= "INSERT INTO Alocacao (IdCadeira, DataHoraInicio, DataHoraFim) VALUES (@IdCadeira, @DataHoraInicio, @DataHorafim)";
+            const string query= @"
+                    INSERT INTO Alocacao (IdCadeira, DataHoraInicio, DataHoraFim)
+                    VALUES (@IdCadeira, @DataHoraInicio, @DataHoraFim)";
             try
             {
+
+                _logger.LogInformation("Id: " + alocacao.Cadeira.Id);
+                _logger.LogInformation("Numero: " + alocacao.Cadeira.Numero);
+                _logger.LogInformation("Descricao: " + alocacao.Cadeira.Descricao);
+                //_logger.LogInformation("Alocacao: " + alocacao.Cadeira.Alocacoes);
+                //_logger.LogInformation("Alocacoes: " + alocacao.Cadeira.TotalAlocacoes);
+
+
                 await connection.ExecuteAsync(query, new
                 {
-                    IdCadeira = alocacao.Cadeira.Id, // Extraindo apenas o ID da cadeira para a persistência
+                    IdCadeira = alocacao.Cadeira.Id,
                     DataHoraInicio = alocacao.DataHoraInicio,
-                    DataHoraFim = alocacao.DataHoraFim,
+                    DataHoraFim = alocacao.DataHoraFim
                 });
                 transaction.Commit();
 
-            return alocacao;
+                return alocacao;
             }
             catch (Exception ex)
             {
@@ -94,6 +104,21 @@ namespace CadeirasDentistas.Repository
             return await connection.QueryAsync<Alocacao>(query, new { Inicio = inicio, Fim = fim });
         }
 
+        public async Task UpdateAlocacaoAsync(Alocacao alocacao)
+        {
+            const string query = @"
+                UPDATE Alocacao
+                SET DataHoraInicio = @DataHoraInicio, DataHoraFim = @DataHoraFim
+                WHERE Id = @Id";
+
+            using var connection = _context.CreateConnection();
+            await connection.ExecuteAsync(query, new
+            {
+                Id = alocacao.Id,
+                DataHoraInicio = alocacao.DataHoraInicio,
+                DataHoraFim = alocacao.DataHoraFim
+            });
+        }
     }
     
 }
